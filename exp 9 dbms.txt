@@ -1,0 +1,197 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 32
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use college
+Database changed
+mysql> SELECT f.FacName,
+    ->        d.DeptName
+    -> FROM faculty f
+    -> INNER JOIN department d
+    -> ON f.Dept = d.DeptNo;
+Empty set (0.00 sec)
+
+mysql> DESC department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| DeptNo   | varchar(4)  | NO   | PRI | NULL    |       |
+| DeptName | varchar(15) | YES  |     | NULL    |       |
+| DeptHead | varchar(4)  | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT * FROM faculty;
++-------+---------+--------+------------+------------+------------+------+------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   | Dept | Age  |
++-------+---------+--------+------------+------------+------------+------+------+
+| F101  | Kumar   | M      | 1985-06-15 | 2012-07-10 | 9876500001 | CSE  | NULL |
+| F103  | Ravi    | M      | 1983-11-25 | 2010-08-01 | 9876500003 | ECE  | NULL |
++-------+---------+--------+------------+------------+------------+------+------+
+2 rows in set (0.00 sec)
+
+mysql> DESC department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| DeptNo   | varchar(4)  | NO   | PRI | NULL    |       |
+| DeptName | varchar(15) | YES  |     | NULL    |       |
+| DeptHead | varchar(4)  | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT * FROM department;
++--------+----------+----------+
+| DeptNo | DeptName | DeptHead |
++--------+----------+----------+
+| D001   | CSE      | F101     |
+| D002   | AIML     | F102     |
+| D003   | ECE      | F103     |
++--------+----------+----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM faculty;
++-------+---------+--------+------------+------------+------------+------+------+
+| FacNo | FacName | Gender | DOB        | DOJ        | MobileNo   | Dept | Age  |
++-------+---------+--------+------------+------------+------------+------+------+
+| F101  | Kumar   | M      | 1985-06-15 | 2012-07-10 | 9876500001 | CSE  | NULL |
+| F103  | Ravi    | M      | 1983-11-25 | 2010-08-01 | 9876500003 | ECE  | NULL |
++-------+---------+--------+------------+------------+------------+------+------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT f.FacName, d.DeptName
+    -> FROM faculty f
+    -> INNER JOIN department d
+    -> ON f.Dept = d.DeptName;
++---------+----------+
+| FacName | DeptName |
++---------+----------+
+| Kumar   | CSE      |
+| Ravi    | ECE      |
++---------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT s.Name, r.CourseNo
+    -> FROM student s
+    -> LEFT JOIN registration r
+    -> ON s.RegNo = r.RegNo
+    -> WHERE r.Score IS NULL;
+Empty set (0.01 sec)
+
+mysql> SELECT * FROM student;
++-------+---------------+--------+------------+------------+------------+
+| RegNo | Name          | Gender | DOB        | MobileNo   | City       |
++-------+---------------+--------+------------+------------+------------+
+|   101 | Harshini Devi | F      | 2006-05-15 | 9876543210 | Chennai    |
+|   102 | Rahul         | M      | 2005-08-20 | 9876543211 | Coimbatore |
+|   103 | Priya         | F      | 2006-02-10 | 9876543212 | Madurai    |
+|   104 | Arun          | M      | 2005-11-25 | 9876543213 | Salem      |
+|   101 | Harshini Devi | F      | 2006-05-15 | 9876543210 | Chennai    |
+|   102 | Rahul         | M      | 2005-08-20 | 9876543211 | Coimbatore |
+|   103 | Priya         | F      | 2006-01-10 | 9876543212 | Madurai    |
++-------+---------------+--------+------------+------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> INSERT INTO student
+    -> VALUES (106,'Harini','F','2005-08-20',9876543210,'Chennai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> DESC student;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| RegNo    | int         | YES  |     | NULL    |       |
+| Name     | varchar(15) | YES  |     | NULL    |       |
+| Gender   | char(1)     | YES  |     | NULL    |       |
+| DOB      | date        | YES  |     | NULL    |       |
+| MobileNo | bigint      | YES  |     | NULL    |       |
+| City     | varchar(15) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM student;
++-------+---------------+--------+------------+------------+------------+
+| RegNo | Name          | Gender | DOB        | MobileNo   | City       |
++-------+---------------+--------+------------+------------+------------+
+|   101 | Harshini Devi | F      | 2006-05-15 | 9876543210 | Chennai    |
+|   102 | Rahul         | M      | 2005-08-20 | 9876543211 | Coimbatore |
+|   103 | Priya         | F      | 2006-02-10 | 9876543212 | Madurai    |
+|   104 | Arun          | M      | 2005-11-25 | 9876543213 | Salem      |
+|   101 | Harshini Devi | F      | 2006-05-15 | 9876543210 | Chennai    |
+|   102 | Rahul         | M      | 2005-08-20 | 9876543211 | Coimbatore |
+|   103 | Priya         | F      | 2006-01-10 | 9876543212 | Madurai    |
+|   106 | Harini        | F      | 2005-08-20 | 9876543210 | Chennai    |
++-------+---------------+--------+------------+------------+------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT * FROM registration;
++-------+----------+-------+
+| RegNo | CourseNo | Score |
++-------+----------+-------+
+|   101 | C01      |    78 |
+|   101 | C02      |    85 |
+|   102 | C01      |    65 |
+|   102 | C02      |    72 |
+|   103 | C01      |    55 |
+|   103 | C03      |    81 |
+|   104 | C02      |    60 |
+|   105 | C03      |    90 |
++-------+----------+-------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT s.Name, r.CourseNo
+    -> FROM student s
+    -> LEFT JOIN registration r
+    -> ON s.RegNo = r.RegNo
+    -> WHERE r.RegNo IS NULL;
++--------+----------+
+| Name   | CourseNo |
++--------+----------+
+| Harini | NULL     |
++--------+----------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO faculty
+    -> VALUES ('F102','Kamal','M','1984-05-20','2011-06-15',9876500002,'ECE',42);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM course;
++----------+------------+------------+-------+--------+-------+
+| CourseNo | CourseDesc | CourseType | SemNo | HallNo | FacNo |
++----------+------------+------------+-------+--------+-------+
+| C01      | DBMS       | T          | 3     | H101   | F101  |
+| C02      | Python     | L          | 2     | H102   | F102  |
+| C03      | Java       | T          | 4     | H103   | F103  |
++----------+------------+------------+-------+--------+-------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE course
+    -> SET FacNo='F102'
+    -> WHERE CourseNo='C02';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> SELECT c.CourseDesc
+    -> FROM course c
+    -> INNER JOIN faculty f
+    -> ON c.FacNo = f.FacNo
+    -> WHERE f.Dept='ECE'
+    -> AND f.FacName='Kamal';
++------------+
+| CourseDesc |
++------------+
+| Python     |
++------------+
+1 row in set (0.00 sec)
+
+mysql>
