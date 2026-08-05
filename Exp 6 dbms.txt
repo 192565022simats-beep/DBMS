@@ -1,0 +1,164 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 29
+Server version: 8.0.46 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SELECT * FROM course;
+ERROR 1046 (3D000): No database selected
+mysql> use college
+Database changed
+mysql> SELECT * FROM course;
++----------+------------+------------+-------+--------+-------+
+| CourseNo | CourseDesc | CourseType | SemNo | HallNo | FacNo |
++----------+------------+------------+-------+--------+-------+
+| C01      | DBMS       | T          | 3     | H101   | F101  |
+| C02      | Python     | L          | 2     | H102   | F102  |
+| C03      | Java       | T          | 4     | H103   | F103  |
++----------+------------+------------+-------+--------+-------+
+3 rows in set (0.01 sec)
+
+mysql> DROP TABLE IF EXISTS registration;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE registration(
+    -> RegNo INT,
+    -> CourseNo VARCHAR(3),
+    -> Score INT
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> INSERT INTO registration VALUES
+    -> (101,'C01',78),
+    -> (101,'C02',85),
+    -> (102,'C01',65),
+    -> (102,'C02',72),
+    -> (103,'C01',55),
+    -> (103,'C03',81),
+    -> (104,'C02',60),
+    -> (105,'C03',90);
+Query OK, 8 rows affected (0.02 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM registration;
++-------+----------+-------+
+| RegNo | CourseNo | Score |
++-------+----------+-------+
+|   101 | C01      |    78 |
+|   101 | C02      |    85 |
+|   102 | C01      |    65 |
+|   102 | C02      |    72 |
+|   103 | C01      |    55 |
+|   103 | C03      |    81 |
+|   104 | C02      |    60 |
+|   105 | C03      |    90 |
++-------+----------+-------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT CourseType
+    -> FROM course
+    -> WHERE CourseDesc IN ('Python','Java');
++------------+
+| CourseType |
++------------+
+| L          |
+| T          |
++------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT CourseNo
+    -> FROM registration
+    -> WHERE Score BETWEEN 50 AND 80;
++----------+
+| CourseNo |
++----------+
+| C01      |
+| C01      |
+| C02      |
+| C01      |
+| C02      |
++----------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT AVG(Score)
+    -> FROM registration
+    -> WHERE CourseNo='C02';
++------------+
+| AVG(Score) |
++------------+
+|    72.3333 |
++------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT MAX(Score),MIN(Score)
+    -> FROM registration
+    -> WHERE CourseNo='C02';
++------------+------------+
+| MAX(Score) | MIN(Score) |
++------------+------------+
+|         85 |         60 |
++------------+------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT CourseNo,
+    -> MAX(Score),
+    -> MIN(Score),
+    -> AVG(Score)
+    -> FROM registration
+    -> GROUP BY CourseNo;
++----------+------------+------------+------------+
+| CourseNo | MAX(Score) | MIN(Score) | AVG(Score) |
++----------+------------+------------+------------+
+| C01      |         78 |         55 |    66.0000 |
+| C02      |         85 |         60 |    72.3333 |
+| C03      |         90 |         81 |    85.5000 |
++----------+------------+------------+------------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT c.CourseDesc,
+    -> AVG(r.Score)
+    -> FROM course c
+    -> JOIN registration r
+    -> ON c.CourseNo=r.CourseNo
+    -> GROUP BY c.CourseDesc;
++------------+--------------+
+| CourseDesc | AVG(r.Score) |
++------------+--------------+
+| DBMS       |      66.0000 |
+| Python     |      72.3333 |
+| Java       |      85.5000 |
++------------+--------------+
+3 rows in set (0.01 sec)
+
+mysql> SELECT SUM(Score)
+    -> FROM registration;
++------------+
+| SUM(Score) |
++------------+
+|        586 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT RegNo,
+    -> COUNT(CourseNo)
+    -> FROM registration
+    -> GROUP BY RegNo;
++-------+-----------------+
+| RegNo | COUNT(CourseNo) |
++-------+-----------------+
+|   101 |               2 |
+|   102 |               2 |
+|   103 |               2 |
+|   104 |               1 |
+|   105 |               1 |
++-------+-----------------+
+5 rows in set (0.01 sec)
+
+mysql>
